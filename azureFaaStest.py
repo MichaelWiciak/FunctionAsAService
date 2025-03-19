@@ -3,7 +3,12 @@ import time
 import random
 import csv
 
-URL = "http://localhost:7071/api/http_trigger"
+# Azure
+# URL = "https://heapsort.azurewebsites.net/api/http_trigger?"
+
+# OpenFaas
+URL = "http://20.254.66.18:8080/function/hello-python"
+
 
 test_cases = [
     {"data": "5,2,3,4,1", "len": 5},  # Valid case
@@ -48,10 +53,6 @@ def generate_test_case(length, minSize, maxSize):
     return {"data": data, "len": length}
 
 
-# Uncomment the following line to run the tests
-# testing()
-
-
 # increasing length of numbers
 def IncreasingLength():
     with open("IncreasingLength.csv", "w", encoding="utf-8") as file:
@@ -89,12 +90,12 @@ def SameLength():
 
 
 def SameLengthHeavyComputation():
-    with open("SameLength.csv", "w", encoding="utf-8") as file:
+    with open("SameLengthHeavyComputation.csv", "w", encoding="utf-8") as file:
         writer = csv.writer(file)
         writer.writerow(["Latency", "Length of Numbers"])
 
-        for i in range(1000):
-            test_case = generate_test_case(100000, 100000000, 1000000000)
+        for i in range(100):
+            test_case = generate_test_case(1000, 100000000, 1000000000)
             status, response_text, latency = call_function(test_case)
             writer.writerow([latency, 100000])
 
@@ -180,22 +181,24 @@ def HeavyComputationStopHeavyComputation():
         writer.writerow([latency, 100000])
 
 
+# Uncomment the following line to run the tests
+testing()
+
 # Performance Testing
-IncreasingLength()
-time.sleep(10)
-DecreasingLength()
-time.sleep(10)
-SameLength()
-time.sleep(10)
-# RandomLength()
-ColdStartHeavyComputation()
-time.sleep(10)
-WarmStartHeavyComputation()
-time.sleep(10)
-SameLengthHeavyComputation()
-time.sleep(10)
-ColdStartEasyComputation()
-time.sleep(10)
-WarmStartEasyComputation()
-time.sleep(10)
-HeavyComputationStopHeavyComputation()
+# IncreasingLength()
+# time.sleep(10)
+# DecreasingLength()
+# time.sleep(10)
+# SameLength()
+# time.sleep(10)
+# ColdStartHeavyComputation()
+# time.sleep(10)
+# WarmStartHeavyComputation()
+# time.sleep(10)
+# SameLengthHeavyComputation()
+# time.sleep(10)
+# ColdStartEasyComputation()
+# time.sleep(10)
+# WarmStartEasyComputation()
+# time.sleep(10)
+# HeavyComputationStopHeavyComputation()
